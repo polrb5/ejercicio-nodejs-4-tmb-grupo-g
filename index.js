@@ -42,7 +42,6 @@ const init = async () => {
     default:
       break;
   }
-  // cargarLinia();
 
   // Fetch a la url
 
@@ -79,6 +78,11 @@ const init = async () => {
         (linea) => linea.properties.NOM_LINIA === respuestas.linea.toUpperCase()
       )
       .map((linea) => linea.properties.COLOR_LINIA);
+    const codigoLinea = lineas.features
+      .filter(
+        (linea) => linea.properties.NOM_LINIA === respuestas.linea.toUpperCase()
+      )
+      .map((linea) => linea.properties.CODI_LINIA);
 
     // Mensaje del nombre y descripción
     console.log(
@@ -86,6 +90,58 @@ const init = async () => {
         `Linea: ${nombreLinea}, Descripción: ${descripcionLinea}`
       )
     );
+
+    // URL paradas de la linea indicada + llamada a la API
+    const urlParadasAPI = `${process.env.URL_PARADAS_METRO}${codigoLinea}/estacions?app_id=${appId}&app_key=${appKey}`;
+
+    const getParadas = await fetch(urlParadasAPI);
+    const paradasMetro = await getParadas.json();
+
+    // Mensaje de las paradas
+
+    // Mensaje si quiere informacion sobre coordenadas y fecha de inauguración
+    if (
+      respuestas.informacion.includes("coordenadas") &&
+      respuestas.informacion.includes("fechaInauguracion")
+    ) {
+      for (const parada of paradasMetro.features) {
+        const coordenadasParada = parada.geometry.coordinates;
+        const fechaInauguracionParada = parada.properties.DATA_INAUGURACIO;
+        console.log(
+          chalk.hex(`#${colorLinea}`)(
+            `Parada: ${parada.properties.NOM_ESTACIO}, Coordenadas: ${coordenadasParada}, Fecha de inauguración: ${fechaInauguracionParada}`
+          )
+        );
+      }
+    }
+    // Mensaje si solo quiere informacion sobre coordenadas
+    else if (
+      respuestas.informacion.includes("coordenadas") &&
+      !respuestas.informacion.includes("fechaInauguracion")
+    ) {
+      for (const parada of paradasMetro.features) {
+        const coordenadasParada = parada.geometry.coordinates;
+        console.log(
+          chalk.hex(`#${colorLinea}`)(
+            `Parada: ${parada.properties.NOM_ESTACIO}, Coordenadas: ${coordenadasParada}`
+          )
+        );
+      }
+    }
+    // Mensaje si solo quiere informacion fecha de inauguración
+    else if (
+      !respuestas.informacion.includes("coordenadas") &&
+      respuestas.informacion.includes("fechaInauguracion")
+    ) {
+      for (const parada of paradasMetro.features) {
+        const fechaInauguracionParada = parada.properties.DATA_INAUGURACIO;
+        console.log(
+          chalk.hex(`#${colorLinea}`)(
+            `Parada: ${parada.properties.NOM_ESTACIO}, Fecha de inauguración: ${fechaInauguracionParada}`
+          )
+        );
+      }
+    }
   }
 };
 
