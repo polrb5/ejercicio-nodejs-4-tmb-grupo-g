@@ -62,6 +62,31 @@ const init = async () => {
       process.exit(1);
     }
   }
+  if (arrayLineas.includes(respuestas.linea.toUpperCase())) {
+    // Propiedades de la linea
+    const nombreLinea = lineas.features
+      .filter(
+        (linea) => linea.properties.NOM_LINIA === respuestas.linea.toUpperCase()
+      )
+      .map((linea) => linea.properties.NOM_LINIA);
+    const descripcionLinea = lineas.features
+      .filter(
+        (linea) => linea.properties.NOM_LINIA === respuestas.linea.toUpperCase()
+      )
+      .map((linea) => linea.properties.DESC_LINIA);
+    const colorLinea = lineas.features
+      .filter(
+        (linea) => linea.properties.NOM_LINIA === respuestas.linea.toUpperCase()
+      )
+      .map((linea) => linea.properties.COLOR_LINIA);
+
+    // Mensaje del nombre y descripción
+    console.log(
+      chalk.hex(`#${colorLinea}`)(
+        `Linea: ${nombreLinea}, Descripción: ${descripcionLinea}`
+      )
+    );
+  }
 };
 
 init();
