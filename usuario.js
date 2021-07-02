@@ -28,7 +28,7 @@ const preguntasUsuario = () => {
           value: "coordenadas",
         },
         {
-          name: "fechaInauguracion",
+          name: "fecha de inauguracion",
           value: "fechaInauguracion",
         },
       ],
