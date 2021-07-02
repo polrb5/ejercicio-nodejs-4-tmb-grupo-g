@@ -46,6 +46,9 @@ const preguntasUsuario = () => {
       when: (preguntasAnteriores) => preguntasAnteriores.transporte === "metro",
     },
   ]);
+  return respuestas;
 };
 
-preguntasUsuario();
+module.exports = {
+  preguntasUsuario,
+};

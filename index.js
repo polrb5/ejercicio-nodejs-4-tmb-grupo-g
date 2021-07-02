@@ -1,8 +1,10 @@
 require("dotenv").config();
 const chalk = require("chalk");
+const { preguntasUsuario } = require("./usuario");
 
-async () => {
+const init = async () => {
   const respuestas = await preguntasUsuario();
+
   switch (respuestas.transporte) {
     case "bus":
       console.log(
@@ -11,5 +13,12 @@ async () => {
         )
       );
       process.exit(0);
+      break;
+    case "metro":
+      break;
+    default:
+      break;
   }
 };
+
+init();
