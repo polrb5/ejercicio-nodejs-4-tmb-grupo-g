@@ -33,6 +33,18 @@ const preguntasUsuario = () => {
         },
       ],
     },
+    {
+      name: "informeErrores",
+      type: "confirm",
+      message: "¿Quiere que le informemos de los errores?",
+      when: (preguntasAnteriores) => preguntasAnteriores.transporte === "metro",
+    },
+    {
+      name: "linea",
+      type: "input",
+      message: "¿Qué línea quiere consultar?",
+      when: (preguntasAnteriores) => preguntasAnteriores.transporte === "metro",
+    },
   ]);
 };
 
