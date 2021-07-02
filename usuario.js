@@ -34,6 +34,9 @@ const preguntasUsuario = () => {
       ],
     },
   ]);
+  return respuestas;
 };
 
-preguntasUsuario();
+module.exports = {
+  preguntasUsuario,
+};

@@ -17,8 +17,7 @@
   "dependencies": {
 
     "eslint-config-prettier": "^8.3.0",
-    "inquirer": "^8.1.1"
-
+    "inquirer": "^8.1.1",
     "chalk": "^4.1.1",
     "dotenv": "^10.0.0"
 
