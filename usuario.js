@@ -45,6 +45,12 @@ const preguntasUsuario = () => {
       message: "¿Qué línea quiere consultar?",
       when: (preguntasAnteriores) => preguntasAnteriores.transporte === "metro",
     },
+    {
+      name: "email",
+      type: "confirm",
+      message: "¿Quiere recibir los resultados por email?",
+      when: (preguntasAnteriores) => preguntasAnteriores.transporte === "metro",
+    },
   ]);
   return respuestas;
 };
