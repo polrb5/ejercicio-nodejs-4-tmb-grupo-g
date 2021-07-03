@@ -20,7 +20,7 @@ const preguntasUsuario = () => {
     {
       name: "informacion",
       type: "checkbox",
-      message: "¿Qué información extra quiere obtener de cada parada?",
+      message: "¿Qué información extra de cada parada?",
       when: (preguntasAnteriores) => preguntasAnteriores.transporte === "metro",
       choices: [
         {
@@ -47,9 +47,27 @@ const preguntasUsuario = () => {
     },
     {
       name: "email",
-      type: "confirm",
+      type: "list",
       message: "¿Quiere recibir los resultados por email?",
+      choices: [
+        {
+          name: "Yes",
+          value: "yes",
+        },
+        {
+          name: "No",
+          value: "no",
+        },
+      ],
       when: (preguntasAnteriores) => preguntasAnteriores.transporte === "metro",
+    },
+    {
+      name: "emailUsuario",
+      type: "input",
+      message: "¿Cuál es su correo?",
+      when: (preguntasAnteriores) =>
+        preguntasAnteriores.email === "Yes" &&
+        preguntasAnteriores.transporte === "metro",
     },
   ]);
   return respuestas;

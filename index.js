@@ -1,9 +1,10 @@
 // imports
-
 require("dotenv").config();
 const fetch = require("node-fetch");
 const chalk = require("chalk");
 const { preguntasUsuario } = require("./usuario");
+const { enviarCorreo } = require("./email");
+const { guardarParadas } = require("./guardarParadas");
 
 // Declaraciones API
 
@@ -55,7 +56,7 @@ const init = async () => {
   );
   if (!arrayLineas.includes(respuestas.linea.toUpperCase())) {
     if (respuestas.informeErrores) {
-      console.log("La linea indicada no existe");
+      console.log(chalk.red.bold("La linea indicada no existe"));
       process.exit(1);
     } else {
       process.exit(1);
@@ -141,7 +142,10 @@ const init = async () => {
           )
         );
       }
-    }
+    } /* else if (respuestas.email) {
+      enviarCorreo(respuestas.emailUsuario, listaParadas, paradas);
+      guardarParadas(paradas);
+    } */
   }
 };
 
