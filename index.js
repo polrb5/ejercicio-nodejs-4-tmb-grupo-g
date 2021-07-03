@@ -30,8 +30,8 @@ const urlLineasAPI = `${urlLineaMetro}app_id=${appId}&app_key=${appKey}`;
 const init = async () => {
   const respuestas = await preguntasUsuario();
   eligeBus(respuestas.transporte);
-  // Fetch a la url
 
+  // Fetch a la url
   const resp = await fetch(urlLineasAPI);
   const lineas = await resp.json();
 
@@ -84,6 +84,12 @@ const init = async () => {
     const getParadas = await fetch(urlParadasAPI);
     const paradasMetro = await getParadas.json();
 
+    const nombreParada = paradasMetro.features
+      .filter((linea) => linea.properties.NOM_ESTACIO)
+      .map((linea) => linea.properties.NOM_ESTACIO);
+
+    guardarParadas(nombreParada);
+
     // Mensaje de las paradas
 
     // Mensaje si quiere informacion sobre coordenadas y fecha de inauguración
@@ -115,6 +121,7 @@ const init = async () => {
         );
       }
     }
+
     // Mensaje si solo quiere informacion fecha de inauguración
     else if (
       !respuestas.informacion.includes("coordenadas") &&
@@ -131,7 +138,6 @@ const init = async () => {
     } /* else if (respuestas.email) {
       const respuestasEmail = { respuestas.informacion, respuestas.linea, respuestas.informeErrores };
       enviarCorreo(respuestas.emailUsuario, "Resultados", respuestas);
-      guardarParadas();
     } */
   }
 };
