@@ -52,11 +52,11 @@ const preguntasUsuario = () => {
       choices: [
         {
           name: "Yes",
-          value: "yes",
+          value: "Yes",
         },
         {
           name: "No",
-          value: "no",
+          value: "No",
         },
       ],
       when: (preguntasAnteriores) => preguntasAnteriores.transporte === "metro",

@@ -5,6 +5,7 @@ const chalk = require("chalk");
 const { preguntasUsuario } = require("./usuario");
 const { enviarCorreo } = require("./email");
 const { guardarParadas } = require("./guardarParadas");
+const { eligeBus } = require("./opcionBus");
 
 // Declaraciones API
 
@@ -28,22 +29,7 @@ const urlLineasAPI = `${urlLineaMetro}app_id=${appId}&app_key=${appKey}`;
 
 const init = async () => {
   const respuestas = await preguntasUsuario();
-
-  switch (respuestas.transporte) {
-    case "bus":
-      console.log(
-        chalk.yellow(
-          `No tenemos información disponible sobre los buses. La puedes encontrar aquí: ${process.env.URL_BUS_TMB}`
-        )
-      );
-      process.exit(0);
-      break;
-    case "metro":
-      break;
-    default:
-      break;
-  }
-
+  eligeBus(respuestas.transporte);
   // Fetch a la url
 
   const resp = await fetch(urlLineasAPI);
@@ -143,8 +129,9 @@ const init = async () => {
         );
       }
     } /* else if (respuestas.email) {
-      enviarCorreo(respuestas.emailUsuario, listaParadas, paradas);
-      guardarParadas(paradas);
+      const respuestasEmail = { respuestas.informacion, respuestas.linea, respuestas.informeErrores };
+      enviarCorreo(respuestas.emailUsuario, "Resultados", respuestas);
+      guardarParadas();
     } */
   }
 };
