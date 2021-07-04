@@ -1,24 +1,31 @@
 const nodemailer = require("nodemailer");
+const fs = require("fs");
+const { promisify } = require("util");
+
+const readFile = promisify(fs.readFile);
 
 const transport = nodemailer.createTransport({
   host: "smtp.ethereal.email",
   port: 587,
   auth: {
-    user: "riley.blanda22@ethereal.email",
-    pass: "672db4haCpsuG2JZ79",
+    user: "stevie47@ethereal.email",
+    pass: "WkZEv3nga2PXgMWcYf",
   },
 });
 
-const remitente = "riley.blanda22@ethereal.email";
+const remitente = "stevie47@ethereal.email";
 
-const enviarCorreo = (destinatario, asunto, contenido) => {
+const enviarCorreo = async (destinatario, asunto, contenido) => {
   const mensaje = {
     from: remitente,
     to: destinatario,
     subject: asunto,
-    html: contenido,
+    text: contenido,
+    html: await readFile("./infoParadas/paradas.txt", "utf8"),
   };
+  console.log(mensaje);
   transport.sendMail(mensaje, (err, info) => {
+    console.log(mensaje);
     if (err) {
       console.log(`No se ha podido enviar el correo. ${err.message}`);
     } else {

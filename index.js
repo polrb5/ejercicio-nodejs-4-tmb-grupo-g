@@ -2,6 +2,7 @@
 require("dotenv").config();
 const fetch = require("node-fetch");
 const chalk = require("chalk");
+const { program } = require("commander");
 const { preguntasUsuario } = require("./usuario");
 const { enviarCorreo } = require("./email");
 const { guardarParadas } = require("./guardarParadas");
@@ -14,16 +15,6 @@ const appKey = process.env.APP_KEY;
 const appId = process.env.APP_ID;
 
 const urlLineasAPI = `${urlLineaMetro}app_id=${appId}&app_key=${appKey}`;
-
-// He pasado la función dentro de init, porque se necesita arrayLineas dentro de init.
-//
-// const cargarLinia = async () => {
-//   const resp = await fetch(urlLineasAPI);
-//   const lineas = await resp.json();
-//   const arrayLineas = lineas.features.map(
-//     (linea) => linea.properties.NOM_LINIA
-//   );
-// };
 
 // Función que recibe respuestas del usuario
 
@@ -87,7 +78,6 @@ const init = async () => {
     const nombreParada = paradasMetro.features
       .filter((linea) => linea.properties.NOM_ESTACIO)
       .map((linea) => linea.properties.NOM_ESTACIO);
-
     guardarParadas(nombreParada);
 
     // Mensaje de las paradas
@@ -135,10 +125,12 @@ const init = async () => {
           )
         );
       }
-    } /* else if (respuestas.email) {
-      const respuestasEmail = { respuestas.informacion, respuestas.linea, respuestas.informeErrores };
-      enviarCorreo(respuestas.emailUsuario, "Resultados", respuestas);
-    } */
+    }
+  }
+  if (respuestas.email && respuestas.emailUsuario) {
+    const respuestasUsuario = { respuestas };
+    enviarCorreo(respuestas.emailUsuario, "Resultados", respuestasUsuario);
+    console.log(respuestasUsuario);
   }
 };
 
